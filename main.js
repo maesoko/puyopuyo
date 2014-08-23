@@ -8,10 +8,10 @@ gsettings = {
 		,fps:30
 };
 
-var FPS = 30; // ƒtƒŒ[ƒ€ƒŒ[ƒg
-var MAX_ROW = 14+1; // c‚Ìƒ}ƒX”
-var MAX_COL = 6+2; // ‰¡‚Ìƒ}ƒX”
-var CELL_SIZE = 16; // ƒ}ƒX‚ÌƒTƒCƒY(‚Õ‚æ‚ÌpxƒTƒCƒY)
+var FPS = 30; // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆ
+var MAX_ROW = 14+1; // ç¸¦ã®ãƒã‚¹æ•°
+var MAX_COL = 6+2; // æ¨ªã®ãƒã‚¹æ•°
+var CELL_SIZE = 16; // ãƒã‚¹ã®ã‚µã‚¤ã‚º(ã·ã‚ˆã®pxã‚µã‚¤ã‚º)
 var PUYOS_IMG = "puyo.png"
 
 
@@ -28,17 +28,17 @@ window.onload = function(){
 		scene.addChild(map);
 		var pair = createPair(game, map, field);
 		scene.addChild(pair);
-		scene.addEventListener("enterframe", function() { // ‚PƒtƒŒ[ƒ€‚²‚Æ‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”‚ğ“o˜^
-			if (!pair.isFall) {                  // ‘€ì‚Õ‚æ‚Ì’…’n”»’è
-				scene.removeChild(pair); // ‘€ì‚Õ‚æ‚ğƒV[ƒ“‚©‚çíœ
-				freeFall(field);                 // ©—R—‰º
-				chain(field);                    // ˜A½ˆ—
-				map.loadData(field);     // ƒ}ƒbƒv‚ÌÄ“Ç‚İ‚İ
-				if (field[2][3] != -1) { // ƒQ[ƒ€ƒI[ƒo[”»’è
+		scene.addEventListener("enterframe", function() { // ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã«å‘¼ã³å‡ºã•ã‚Œã‚‹é–¢æ•°ã‚’ç™»éŒ²
+			if (!pair.isFall) {                  // æ“ä½œã·ã‚ˆã®ç€åœ°åˆ¤å®š
+				scene.removeChild(pair); // æ“ä½œã·ã‚ˆã‚’ã‚·ãƒ¼ãƒ³ã‹ã‚‰å‰Šé™¤
+				freeFall(field);                 // è‡ªç”±è½ä¸‹
+				chain(field);                    // é€£é–å‡¦ç†
+				map.loadData(field);     // ãƒãƒƒãƒ—ã®å†èª­ã¿è¾¼ã¿
+				if (field[2][3] != -1) { // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼åˆ¤å®š
 					game.stop();
 					alert("Game Over");
 				} else {
-					/* ‘€ì‚Õ‚æ‚ğXVAƒV[ƒ“‚É’Ç‰Á */
+					/* æ“ä½œã·ã‚ˆã‚’æ›´æ–°ã€ã‚·ãƒ¼ãƒ³ã«è¿½åŠ  */
 					pair = createPair(game, map, field);
 					scene.addChild(pair);
 				}
@@ -54,39 +54,39 @@ function initGame(){
 	for (var i=0; i<field.length; i++) {
 		var temp_array = [];
 		for (var j=0; j<MAX_COL; j++) {
-			if (j==0 || j==MAX_COL-1 || i==MAX_ROW-1) temp_array[j] = 0; // ƒuƒƒbƒN(•Ç)‚ğ”z’u
-			else temp_array[j] = -1; // ‹ó
+			if (j==0 || j==MAX_COL-1 || i==MAX_ROW-1) temp_array[j] = 0; // ãƒ–ãƒ­ãƒƒã‚¯(å£)ã‚’é…ç½®
+			else temp_array[j] = -1; // ç©º
 		}
 		field[i] = temp_array;
 	}
-	map.image = game.assets[PUYOS_IMG];     // map‚É‚Õ‚æ‰æ‘œ‚ğ“Ç‚İ‚±‚Ü‚¹‚é
-	map.loadData(field);    // map‚ÉƒtƒB[ƒ‹ƒh‚ğ“Ç‚İ‚±‚Ü‚¹‚é
-	scene.addChild(map);    // ƒ}ƒbƒv‚ğƒV[ƒ“‚É’Ç‰Á
+	map.image = game.assets[PUYOS_IMG];     // mapã«ã·ã‚ˆç”»åƒã‚’èª­ã¿ã“ã¾ã›ã‚‹
+	map.loadData(field);    // mapã«ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã‚’èª­ã¿ã“ã¾ã›ã‚‹
+	scene.addChild(map);    // ãƒãƒƒãƒ—ã‚’ã‚·ãƒ¼ãƒ³ã«è¿½åŠ 
 }
 
 function createPuyo (game){
 	var puyo = new Sprite(CELL_SIZE, CELL_SIZE);
 	puyo.image = game.assets[PUYOS_IMG];
-	puyo.frame = Math.floor(Math.random()*4+1); // ƒ‰ƒ“ƒ_ƒ€‚ÉF‚ğ‘I‘ğ
+	puyo.frame = Math.floor(Math.random()*4+1); // ãƒ©ãƒ³ãƒ€ãƒ ã«è‰²ã‚’é¸æŠ
 	puyo.moveTo(0, 0);
 	return puyo;
 }
 
 function countPuyos (row, col, field) {
-	var c = field[row][col];    // ‚Õ‚æ‚ÌF
-	var n = 1;                  // 1‚Å‰Šú‰»‚µ‚Ä‚¢‚é‚Ì‚Í©•ª‚àƒJƒEƒ“ƒg‚·‚é‚½‚ßB
-	field[row][col] = -1; // ‚±‚ÌêŠ‚ğƒ`ƒFƒbƒN‚µ‚½Ø‚Æ‚µ‚Äˆê“I‚É‹ó”’‚É
+	var c = field[row][col];    // ã·ã‚ˆã®è‰²
+	var n = 1;                  // 1ã§åˆæœŸåŒ–ã—ã¦ã„ã‚‹ã®ã¯è‡ªåˆ†ã‚‚ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹ãŸã‚ã€‚
+	field[row][col] = -1; // ã“ã®å ´æ‰€ã‚’ãƒã‚§ãƒƒã‚¯ã—ãŸè¨¼ã¨ã—ã¦ä¸€æ™‚çš„ã«ç©ºç™½ã«
 	if (row-1>=2 && field[row-1][col]==c) n += countPuyos(row-1, col, field);   
 	if (row+1<=MAX_ROW-2 && field[row+1][col]==c) n += countPuyos(row+1, col, field);
 	if (col-1>=1 && field[row][col-1]==c) n += countPuyos(row, col-1, field);
 	if (col+1<=MAX_COL-2 && field[row][col+1]==c) n += countPuyos(row, col+1, field);
-	field[row][col] = c;                // F‚ğ–ß‚·
+	field[row][col] = c;                // è‰²ã‚’æˆ»ã™
 	return n;
 }
 
 function deletePuyos (row, col, field) {
-	var c = field[row][col];    // ‚Õ‚æ‚ÌF
-	field[row][col] = -1;               // ‚Õ‚æ‚ğ‹ó‚É
+	var c = field[row][col];    // ã·ã‚ˆã®è‰²
+	field[row][col] = -1;               // ã·ã‚ˆã‚’ç©ºã«
 	if (row-1>=2 && field[row-1][col]==c) deletePuyos(row-1, col, field);
 	if (row+1<=MAX_ROW-2 && field[row+1][col]==c) deletePuyos(row+1, col, field);
 	if (col-1>=1 && field[row][col-1]==c) deletePuyos(row, col-1, field);
@@ -94,12 +94,12 @@ function deletePuyos (row, col, field) {
 }
 
 function freeFall (field) {
-	var c = 0;                                  // ‚¨‚¿‚½‚Õ‚æ‚Ì”
+	var c = 0;                                  // ãŠã¡ãŸã·ã‚ˆã®æ•°
 	for (var i=0; i<MAX_COL; i++) {
 		var spaces = 0;
 		for (var j=MAX_ROW-1; j>=0; j--) {
 			if (field[j][i] == -1) spaces ++;
-			else if (spaces >= 1) {     // —‚¿‚é‚×‚«‚Õ‚æ‚ª‚ ‚Á‚½ê‡
+			else if (spaces >= 1) {     // è½ã¡ã‚‹ã¹ãã·ã‚ˆãŒã‚ã£ãŸå ´åˆ
 				field[j+spaces][i] = field[j][i];
 				field[j][i] = -1;
 				c ++;
@@ -112,68 +112,68 @@ function freeFall (field) {
 function chain (field) {
 	for (var i=0; i<MAX_ROW; i++) {
 		for (var j=0; j<MAX_COL; j++) {
-			var n = 0; // ‚Â‚È‚ª‚Á‚Ä‚¢‚é‚Õ‚æ‚ğƒJƒEƒ“ƒg‚·‚é•Ï”‚ğ‰Šú‰»
-			if (field[i][j]>=1 && countPuyos(i, j, field)>=4){ // “¯‚¶F‚Ì‚Õ‚æ‚ª‚S‚Â‚È‚ª‚Á‚Ä‚¢‚½ê‡
-				deletePuyos(i, j, field); // ‚Õ‚æ‚ğÁ‹
+			var n = 0; // ã¤ãªãŒã£ã¦ã„ã‚‹ã·ã‚ˆã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹å¤‰æ•°ã‚’åˆæœŸåŒ–
+			if (field[i][j]>=1 && countPuyos(i, j, field)>=4){ // åŒã˜è‰²ã®ã·ã‚ˆãŒï¼”ã¤ãªãŒã£ã¦ã„ãŸå ´åˆ
+				deletePuyos(i, j, field); // ã·ã‚ˆã‚’æ¶ˆå»
 			};
 		}
 	}
-	if (freeFall(field) >= 1) chain(field); // ©—R—‰º‚µ‚½‚Õ‚æ‚ª‚ ‚Á‚½ê‡‚ÍÄ‹A
+	if (freeFall(field) >= 1) chain(field); // è‡ªç”±è½ä¸‹ã—ãŸã·ã‚ˆãŒã‚ã£ãŸå ´åˆã¯å†å¸°
 }
 
 function createPair (game, map, field) {
 	var pair = new Group();
-	var p0 = createPuyo(game);  // ‰ñ‚é‘¤‚Ì‘€ì‚Õ‚æ
-	var p1 = createPuyo(game);  // ²‘¤‚Ì‘€ì‚Õ‚æ
-	var forms = [[0, -CELL_SIZE], [CELL_SIZE, 0], [0, CELL_SIZE], [-CELL_SIZE, 0]]; // ‘€ì‚Õ‚æ‚ÌŒ`
-	var formNum = 0;                    // ‘€ì‚Õ‚æ‚ÌŒ`‚Ì”Ô†BƒtƒH[ƒ€ƒiƒ“ƒo
-	/* ƒL[‰Ÿ‰ºƒJƒEƒ“ƒg */
+	var p0 = createPuyo(game);  // å›ã‚‹å´ã®æ“ä½œã·ã‚ˆ
+	var p1 = createPuyo(game);  // è»¸å´ã®æ“ä½œã·ã‚ˆ
+	var forms = [[0, -CELL_SIZE], [CELL_SIZE, 0], [0, CELL_SIZE], [-CELL_SIZE, 0]]; // æ“ä½œã·ã‚ˆã®å½¢
+	var formNum = 0;                    // æ“ä½œã·ã‚ˆã®å½¢ã®ç•ªå·ã€‚ãƒ•ã‚©ãƒ¼ãƒ ãƒŠãƒ³ãƒ
+	/* ã‚­ãƒ¼æŠ¼ä¸‹ã‚«ã‚¦ãƒ³ãƒˆ */
 	var inputRightCount = 0;    
 	var inputLeftCount = 0;
 	var inputAcount = 0;
-	pair.isFall = true;            // —‰º’†A‚Â‚Ü‚è‘€ìo—ˆ‚éó‘Ô‚©‚Ç‚¤‚©
-	pair.addChild(p0);             // ‘€ì‚Õ‚æ‚ğƒV[ƒ“‚É’Ç‰Á
+	pair.isFall = true;            // è½ä¸‹ä¸­ã€ã¤ã¾ã‚Šæ“ä½œå‡ºæ¥ã‚‹çŠ¶æ…‹ã‹ã©ã†ã‹
+	pair.addChild(p0);             // æ“ä½œã·ã‚ˆã‚’ã‚·ãƒ¼ãƒ³ã«è¿½åŠ 
 	pair.addChild(p1);
-	p0.y = -CELL_SIZE;     // ‰ñ‚é‘¤‚Ì‚Õ‚æ‚Ì‰ŠúˆÊ’u‚ğ²‚Õ‚æ‚Ìˆê‚Âã‚Ö
-	pair.moveTo(CELL_SIZE*3, CELL_SIZE); // ƒOƒ‹[ƒv‚Ì‰ŠúˆÊ’u‚ğ‘€ì‚Õ‚æoŒ»êŠ‚Ö
+	p0.y = -CELL_SIZE;     // å›ã‚‹å´ã®ã·ã‚ˆã®åˆæœŸä½ç½®ã‚’è»¸ã·ã‚ˆã®ä¸€ã¤ä¸Šã¸
+	pair.moveTo(CELL_SIZE*3, CELL_SIZE); // ã‚°ãƒ«ãƒ¼ãƒ—ã®åˆæœŸä½ç½®ã‚’æ“ä½œã·ã‚ˆå‡ºç¾å ´æ‰€ã¸
 	pair.addEventListener("enterframe", function() {
-		// ƒtƒŒ[ƒ€–ˆ‚Ìˆ—
-		// /* ƒL[˜A‘±‰Ÿ‰ºƒJƒEƒ“ƒg‚ÌXV */
+		// ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã®å‡¦ç†
+		// /* ã‚­ãƒ¼é€£ç¶šæŠ¼ä¸‹ã‚«ã‚¦ãƒ³ãƒˆã®æ›´æ–° */
 		inputRightCount = game.input.right ? inputRightCount+1 : 0;
 		inputLeftCount = game.input.left ? inputLeftCount+1 : 0;
 		inputACount = game.input.a ? inputACount+1 : 0;
-		/* ‰ñ“] */
+		/* å›è»¢ */
 		if (inputACount == 1) {
-			var newFormNum = (formNum+1) % 4; // ‰ñ“]‚µ‚½ê‡‚ÌƒtƒH[ƒ€ƒiƒ“ƒo
-			var newX = forms[newFormNum][0];  // ‰ñ“]æ‚Ìx
-			var newY = forms[newFormNum][1];  // ‰ñ“]æ‚Ìy
-			if (!map.hitTest(this.x+newX, this.y+newY)) { // ‰ñ“]‰Â”\”»’è
+			var newFormNum = (formNum+1) % 4; // å›è»¢ã—ãŸå ´åˆã®ãƒ•ã‚©ãƒ¼ãƒ ãƒŠãƒ³ãƒ
+			var newX = forms[newFormNum][0];  // å›è»¢å…ˆã®x
+			var newY = forms[newFormNum][1];  // å›è»¢å…ˆã®y
+			if (!map.hitTest(this.x+newX, this.y+newY)) { // å›è»¢å¯èƒ½åˆ¤å®š
 				formNum = newFormNum;
 				p0.moveTo(newX, newY);
 			}
 		}
-		/* ‰¡ˆÚ“® */
-		var newX = 0;                   // ‰¡ˆÚ“®æ‚Ìx
+		/* æ¨ªç§»å‹• */
+		var newX = 0;                   // æ¨ªç§»å‹•å…ˆã®x
 		if (inputRightCount == 1) {
 			newX = formNum==1 ? p0.x+CELL_SIZE : p1.x+CELL_SIZE;
 		}
 		if (inputLeftCount == 1) {
 			newX = formNum==3 ? p0.x-CELL_SIZE : p1.x-CELL_SIZE;
 		}
-		if (!map.hitTest(this.x+newX, this.y+p0.y) && !map.hitTest(this.x+newX, this.y+p1.y)) { // ˆÚ“®‰Â”\”»’è
+		if (!map.hitTest(this.x+newX, this.y+p0.y) && !map.hitTest(this.x+newX, this.y+p1.y)) { // ç§»å‹•å¯èƒ½åˆ¤å®š
 			this.x = this.x + (newX?newX>=0?1:-1:0)*CELL_SIZE;
 		}
-		/* —‰º */
+		/* è½ä¸‹ */
 		newY = formNum==2 ? p0.y+CELL_SIZE : p1.y+CELL_SIZE;
-		var vy = Math.floor(game.input.down ? game.fps/10 : game.fps/1); // —‰º‘¬“x‚Ìİ’è (10‚â1‚È‚Ç‚Ì”’l‚Í‰½ƒ}ƒX–ˆ•b‚©
+		var vy = Math.floor(game.input.down ? game.fps/10 : game.fps/1); // è½ä¸‹é€Ÿåº¦ã®è¨­å®š (10ã‚„1ãªã©ã®æ•°å€¤ã¯ä½•ãƒã‚¹æ¯ç§’ã‹
 		if (game.frame%vy == 0) {
-			if (!map.hitTest(this.x+p0.x, this.y+newY) && !map.hitTest(this.x+p1.x, this.y+newY)) { // ˆÚ“®‰Â”\”»’è
+			if (!map.hitTest(this.x+p0.x, this.y+newY) && !map.hitTest(this.x+p1.x, this.y+newY)) { // ç§»å‹•å¯èƒ½åˆ¤å®š
 				this.y += CELL_SIZE;
-			} else {                    // ’…’n‚µ‚½ê‡
-				/* ƒtƒB[ƒ‹ƒh‚É‘€ì‚Õ‚æ‚ğ’Ç‰Á */
+			} else {                    // ç€åœ°ã—ãŸå ´åˆ
+				/* ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«æ“ä½œã·ã‚ˆã‚’è¿½åŠ  */
 				field[(this.y+p0.y)/CELL_SIZE][(this.x+p0.x)/CELL_SIZE] = p0.frame;
 				field[(this.y+p1.y)/CELL_SIZE][(this.x+p1.x)/CELL_SIZE] = p1.frame;
-				pair.isFall = false; // ’…’n‚µ‚½‚Ì‚Å—‰º’†ƒtƒ‰ƒO‚ğfalse‚É
+				pair.isFall = false; // ç€åœ°ã—ãŸã®ã§è½ä¸‹ä¸­ãƒ•ãƒ©ã‚°ã‚’falseã«
 			}
 		}    });
 	return pair;
